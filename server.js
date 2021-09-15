@@ -1,6 +1,7 @@
 require('dotenv').config({ path: './config.env' });
 const express = require('express');
 const connectDB = require('./config/db');
+const errorHandler = require('./middleware/error.middleware');
 
 // Connect DB
 connectDB();
@@ -11,6 +12,9 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', require('./routes/auth.route'));
+
+// Error Handler (Should be the last piece of middleware)
+app.use(errorHandler);
 
 // Server settings
 const PORT = process.env.PORT;
@@ -24,8 +28,3 @@ process.on('unhandledRejection', (err, promise) => {
 	console.log(`Logged Error: ${err}`);
 	server.close(() => process.exit(1));
 });
-
-// process.on('ReferenceError', (err, promise) => {
-// 	console.log(`Logged Error: ${err}`);
-// 	server.close(() => process.exit(1));
-// });
