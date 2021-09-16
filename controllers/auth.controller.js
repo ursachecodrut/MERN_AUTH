@@ -40,7 +40,7 @@ exports.login = async (req, res, next) => {
 	}
 };
 
-exports.forgotPassword = (req, res, next) => {
+exports.forgotPassword = async (req, res, next) => {
 	const { email } = req.body;
 	try {
 		const user = await User.findOne({ email });
